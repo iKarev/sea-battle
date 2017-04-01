@@ -1,0 +1,195 @@
+* {
+    margin:0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+body {
+    overflow: hidden;
+}
+.battlefield{
+    width: 400px;
+    height: 400px;
+    border-bottom:1px solid;
+}
+.battlefield__cell{
+    display: inline-block;
+    border: 1px solid;
+    border-right: 0px;
+    border-bottom: 0px;
+    width: 40px;
+    height: 40px;
+    position: relative;
+}
+.battlefield__cell:nth-child(10n){
+    border-right: 1px solid;
+}
+#battlefield-comp .battlefield__cell.shooted {
+  box-shadow: inset 0 0 10px rgba(0,0,255,.6);
+}
+#battlefield-player .battlefield__cell.shooted{
+  box-shadow: inset 0 0 10px rgba(200,0,0,.5);
+}
+
+#battlefield-comp .ship{
+  background: firebrick;
+  pointer-events: none;
+  visibility: hidden;
+}
+#battlefield-comp .ship.destoyed{
+  visibility: visible;
+}
+#battlefield-comp .ship-placed{
+    /*background: transparent;*/
+}
+#battlefield-comp .ship-around{
+    background: transparent;
+}
+#battlefield-comp .ship-placed.damaged{
+    /*background: transparent;*/
+}
+.ship{
+  background: blue;
+  border-radius: 10px;
+  height: 30px;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  z-index: -1;
+}
+.ship.shadow{
+    pointer-events: none;
+}
+.ship-placed{
+    background: transparent;
+}
+.ship-around{
+    background: rgba(135, 206, 250,.5);
+}
+.game-started .ship-around{
+    background: transparent;
+}
+.shipsize_4{width: 150px;} .shipsize_4.vertical{height: 150px;width: 30px;}
+.shipsize_3{width: 110px;} .shipsize_3.vertical{height: 110px;width: 30px;}
+.shipsize_2{width: 70px;} .shipsize_2.vertical{height: 70px;width: 30px;}
+.shipsize_1{width: 30px;} .shipsize_1.vertical{height: 30px;width: 30px;}
+
+.shadow{
+    opacity: .5;
+}
+
+.game-started #battlefield-comp{
+  cursor: none;
+}
+.game-started .aim {
+  width: 50px;
+  height: 50px;
+  background: url(https://lh3.ggpht.com/zcuOo7kVOd96iOkHqGPycmew9s9-pIAJH8k-grTQ9a5CkYTjY2ZGZviO9QEo1XEhNkBB=w100) no-repeat;
+  background-size: contain;
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;
+  border-radius: 50%;
+}
+.game-started .aim.bang {
+  width: 1000px;
+  height: 1000px;
+  opacity: 0;
+  margin: -475px;
+}
+
+#battlefield-player .aim.bang{
+  background-color: red;
+}
+#battlefield-comp .aim.bang{
+  background-color: blue;
+}
+
+#battlefield-player .aim{
+  visibility: hidden;
+}
+#battlefield-player .aim.visible{
+  visibility: visible;
+}
+
+
+.ship-placed.damaged{
+  background: url('http://effects1.ru/png/kartinka/tekhnika/2/vzryvy/vzryv_16-320.png') no-repeat;
+  background-size: contain;
+}
+
+
+
+/* flexbox */
+.layout-row {
+  display: flex;
+  flex-direction: row; }
+.layout-column {
+  display: flex;
+  flex-direction: column; }
+  .layout-align-start-start {
+  justify-content: flex-start;
+  align-items: flex-start; }
+
+.layout-align-start-end {
+  justify-content: flex-start;
+  align-items: flex-end; }
+
+.layout-align-start-center {
+  justify-content: flex-start;
+  align-items: center; }
+
+.layout-align-end-start {
+  justify-content: flex-end;
+  align-items: flex-start; }
+
+.layout-align-end-end {
+  justify-content: flex-end;
+  align-items: flex-end; }
+
+.layout-align-end-center {
+  justify-content: flex-end;
+  align-items: center; }
+
+.layout-align-center-start {
+  justify-content: center;
+  align-items: flex-start; }
+
+.layout-align-center-end {
+  justify-content: center;
+  align-items: flex-end; }
+
+.layout-align-center-center {
+  justify-content: center;
+  align-items: center; }
+
+.layout-align-space-between-start {
+  justify-content: space-between;
+  align-items: flex-start; }
+
+.layout-align-space-between-end {
+  justify-content: space-between;
+  align-items: flex-end; }
+
+.layout-align-space-between-center {
+  justify-content: space-between;
+  align-items: center; }
+
+.layout-align-space-around-start {
+  justify-content: space-around;
+  align-items: flex-start; }
+
+.layout-align-space-around-end {
+  justify-content: space-around;
+  align-items: flex-end; }
+
+.layout-align-space-around-center {
+  justify-content: space-around;
+  align-items: center; }
+
+/* common material styles */
+.h100 {
+    height: 100%;
+}
+.transition-3{
+  transition: .3s;
+}
