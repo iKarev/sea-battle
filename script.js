@@ -5,10 +5,12 @@ function gameplay () {
     this.compBattlefield = document.getElementById('battlefield-comp');
     this.gamearea = document.getElementById('gamearea');
     this.count = [10,10];
+    this.computerFireDirection = null;
     
     let gameStatus = document.getElementById('game-status');
     let gameCount = document.getElementById('game-count');
     let fleet = [4,3,3,2,2,2,1,1,1,1];
+    let computerNextShot;
 
     let startGame = () => {
         this.gamearea.classList.add('game-started');
@@ -31,11 +33,10 @@ function gameplay () {
         let onShot = (e, comp) => {
             if (this.gameFinished)
                 return; 
-                
+
             let target;
             if (comp) {
                 targetIndex = computerNextShot != undefined && computerNextShot != false ? computerNextShot : parseInt(Math.random()*100);
-                console.log(computerNextShot + ' == ' + this.lastShot);
                 if (this.lastShot == targetIndex) targetIndex = parseInt(Math.random()*100);
                 this.lastShot = targetIndex;
                 target = playerBattlefield.querySelector(`.battlefield__cell:nth-child(${targetIndex+1})`);
@@ -95,8 +96,6 @@ function gameplay () {
         }
         this.compBattlefield.addEventListener("click", onShot);
 
-        let computerNextShot;
-        this.computerFireDirection = null;
         let planNextShot = () => {
             let that = this;
             if (this.lastSuccessShot == undefined)
@@ -113,7 +112,8 @@ function gameplay () {
                 let distance = size * direction;
 
                 target = setTarget(that.lastSuccessShot + distance);
-                if (checkMiss(target)) {
+                
+                if (checkMiss(target)) { // Проверяем промахи
                     target = setTarget(that.lastSuccessShot - distance);
                     if (checkMiss(target)) {
                         if (!checkDamageAfterMiss()) {
@@ -124,7 +124,7 @@ function gameplay () {
                         computerNextShot = checkDamageAfterMiss() ? checkDamageAfterMiss() : that.lastSuccessShot - distance;
                     }
 
-                    function checkDamageAfterMiss () {
+                    function checkDamageAfterMiss () { // Проверяем попадания на всем протяжении корабля
                         if (checkDamage(target)) {
                             for (let i = 0; i < 5; i++) {
                                 target = setTarget(that.lastSuccessShot - distance+i);
@@ -139,7 +139,7 @@ function gameplay () {
                             return false;
                     }
 
-                } else if (checkDamage(target)) {
+                } else if (checkDamage(target)) { // Проверяем попадания
                     let count = 0;
                     while (computerNextShot == undefined || count > 10) {
                         if (that.lastSuccessShot - distance > -1 && that.lastSuccessShot + distance < 100)
@@ -164,7 +164,6 @@ function gameplay () {
                     }
                 } else 
                     computerNextShot = that.lastSuccessShot + distance;
-                // if (computerNextShot == this.lastShot) computerNextShot = parseInt(Math.random()*100);
             }
             function setTarget (targetIndex) {
                 return playerBattlefield.querySelector(`.battlefield__cell:nth-child(${targetIndex+1})`);
@@ -201,7 +200,7 @@ function gameplay () {
         if (!shipNode) {
             if (vertical) {
                 let search = 0;
-                do {
+                do { // Смотрим повреждения на всём протяжении корабля
                     let cell = battlefield.querySelector(`.battlefield__cell:nth-child(${elIndex-search})`);
                     if (cell.children[0] && cell.children[0].classList.contains('ship')) {
                         startCellIndex = elIndex-search;
@@ -300,7 +299,7 @@ function gameplay () {
         let shipsOrder = 0;
         let compShipsOrder = 0;
 
-        chooseShipPlace(fleet[shipsOrder]);
+        chooseShipPlace(fleet[shipsOrder]); // Пользователь расставляет свои корабли
         chooseShipPlace(fleet[compShipsOrder], true); // Быстренько расставляем корабли компьютера
         
         function chooseShipPlace(shipSize, comp) {
@@ -386,8 +385,9 @@ function gameplay () {
                     }
                 }
                 return true;
-            }
-            function paintShipCells (ship, newCellIndex) { // Ставим классы на ячейки, где находится корабль
+            } 
+            // Ставим классы на ячейки, где находится корабль, чтобы не было возможности ставить корабли рядом
+            function paintShipCells (ship, newCellIndex) {
                 var start = Math.floor(newCellIndex/10-1)*10;
                 if (start < 0) start = 0;
                 if(checkDirectionIsHorizontal(ship)) {
